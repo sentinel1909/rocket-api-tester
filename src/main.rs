@@ -1,12 +1,14 @@
 #[macro_use]
 extern crate rocket;
 
-#[get("/")]
-fn index() -> &'static str {
-    "Hello, from Rocket!"
+use rocket::http::Status;
+
+#[get("/health_check")]
+fn health_check() -> (Status, &'static str) {
+    (Status::Ok, "200 OK")
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![index])
+    rocket::build().mount("/", routes![health_check])
 }
